@@ -1,39 +1,30 @@
-/* デモ用のストループ課題 */
-/* 教示 */
-var instructions = {
-    type: "html-keyboard-response",
-    stimulus: "<p style='text-align:left'>これはテストの質問紙です。</p>"+
-        "<p style='text-align:left'>キーボードのキーをどれか押すと質問が始まります。準備ができたら始めてください。</p>",
-    post_trial_gap: 1000
-};
-
-/*questionnaire*/
-var scale = [
-  "非常にあてはまる", 
-  "かなりあてはまる", 
-  "ややあてはまる", 
-  "どちらともいえない",
-  "あまりあてはまらない",
-  "ほとんどあてはまらない",
-  "全くあてはまらない"
-];
-
-var questionnaire = {
-  type: 'survey-likert',
-  questions: [
-    {prompt: "私はjava scriptが好きだ", name: 'lab', labels: scale},
-    {prompt: "私はjsPsychが好きだ", name: 'programming', labels: scale},
-    {prompt: "私はlab.jsが好きだ", name: 'psych', labels: scale},
-    {prompt: "私はJATOSが好きだ", name: 'Senshu', labels: scale}
-  ],
-  button_label: '次へ',
-};
-
-/*デブリーフィング*/
-var debrief = {
-  type: "html-keyboard-response",
-  stimulus: "<p style='text-align:left'>質問は以上です。キーボードのキーをどれか押すと終わります。</p>",
-};
-
+/* 課題に関するコードを以下に書く */
+/* 件法の設定 */
+const scale = {
+    '全く違うと思う': 1,
+    'おおよそ違うと思う': 2,
+    '少し違うと思う': 3,
+    'どちらでもない': 4,
+    '少しそう思う': 5,
+    'まあまあそう思う': 6,
+    '強くそう思う': 7,
+  };
+/* 質問紙の設定 */
+const likert_page = {
+    type: jsPsychSurveyMatrixLikert,
+    questions: [
+      {prompt: '心理学のことが好きだ', required: true, name: '好き', reverse_item: false},
+      {prompt: '心理学のことを一日中考えている', required: true, name: '考える', reverse_item: true},
+      {prompt: '心理学のことを悪く言われると気分が悪い', required: true, name: '気分悪い'},
+      {prompt: '私は心理学のために尽くすタイプだ', required: false, name: '尽くす'}
+    ],
+    randomize_question_order: false,
+    scale: scale,
+    column_header_alignment: 'bottom', // 'top': 上揃い, 'center': 中揃い, 'bottom': 下揃い
+    preamble: 'この質問紙はあなたの心理学に対する感情を測定するものです。<br> 以下の項目をよく読んで，あなた自身にどのくらい当てはまるか，当てはまるものをクリックしてください。',
+    cellpadding: 16,
+    button_label: '次へ',
+    autocomplete: true
+  };
 /*タイムラインの設定*/
-var timeline = [fullscreen,instructions,questionnaire,debrief];
+const timeline = [likert_page];
